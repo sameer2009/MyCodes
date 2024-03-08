@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Madimi+One&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Coming+Soon&display=swap');
+
+        @keyframes anime {
+            from {
+                background-color: white;
+            }
+
+            to {
+                background-color: rgb(74, 74, 74);
+            }
+        }
+        @keyframes anime2 {
+            from {
+                background-color: rgb(74, 74, 74);
+            }
+
+            to {
+                background-color:white ;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: "Madimi One";
+        }
+
+        body {
+            background-image: url('background_image.jpg');
+            background-size: 1280px 800px;
+        }
+
+        .main {
+            border: 1px solid white;
+            width: 500px;
+            height: 350px;
+            color: wheat;
+            justify-content: center;
+            margin: auto;
+            margin-top: 28vh;
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .login {
+            font-size: 25px;
+            display: flex;
+            justify-content: center;
+            font-size: 35px;
+            margin-top: 15px;
+        }
+
+        .form {
+            font-size: 20px;
+            margin-top: 12px;
+            background-color: transparent;
+            justify-content: center;
+        }
+
+        .password_p {
+            margin-top: 32px;
+        }
+
+        p {
+            margin-left: 30px;
+            margin-top: 13px;
+            margin-left: 102px;
+        }
+
+        .common_input {
+            height: 25px;
+            border-radius: 30px;
+            font-size: 16px;
+        }
+
+        .btn {
+            margin-top: 34px;
+            margin-left: 99px;
+            width: 303px;
+            border: 1px solid white;
+            height: 50px;
+            font-size: 19px;
+            background: white;
+            border-radius: 20px;
+        }
+
+        input {
+            border: 1px solid white;
+            color: rgb(200, 226, 200);
+            width: 260px;
+            background-color: transparent;
+            padding: 12px;
+        }
+
+        .email_p {
+            margin-top: 30px;
+        }
+
+        input::placeholder {
+            font-weight: lighter;
+            opacity: 0.8;
+            color: white;
+        }
+
+        .remember {
+            position: relative;
+            left: 131px;
+            top: -70px;
+            font-size: 16px;
+            color: white;
+            font-weight: 100;
+        }
+
+        .checkbox {
+            position: relative;
+            top: -94px;
+            left: -13px;
+        }
+
+        .forgot {
+            position: relative;
+            top: -116px;
+            font-size: 14px;
+            left: 276px;
+        }
+
+        .forgot a {
+            color: white;
+        }
+
+        .account {
+            position: relative;
+            top: -91px;
+            font-size: 14px;
+            left: 158px;
+            color: white;
+        }
+
+        .account a {
+            color: white;
+        }
+
+        .checkbox {
+            border: none;
+        }
+
+        .btn:hover,
+        .btn:active {
+            animation: anime 2s;
+        }
+
+        .show_password {
+            position: relative;
+            top: -183px;
+            left: 391px;
+        }
+
+        .show_password button {
+            border: none;
+            background: none;
+        }
+
+        .enter {
+            position: relative;
+            color: red;
+            top: -189px;
+            font-size: 14px;
+            left: -88px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <span class="login">
+            Login
+        </span>
+        <div class="form">
+            <form>
+                <p class="email_p">
+                    <input class="email_input common_input" placeholder="Email ID" type="email">
+                </p>
+                <p class="password_p">
+                    <input class="password_input common_input" placeholder="Password" type="password">
+                </p>
+                <button class="btn" id="btn">Login</button>
+                <div class="remember">Remember me</div>
+                <input class="checkbox" type="checkbox">
+                <span class="enter"></span>
+                <div class="forgot"><a href="/login page/login_page.html"> Forgot Password?</a></div>
+                <div class="show_password"><button id="show_password_btn"><img width="20px" src="show_password.png"
+                            alt="Show"></button></div>
+                <div class="account">Don't have an account?<a href="/login page/login_page.html"><b>Register</b></a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.getElementById('btn').addEventListener('click', () => {
+            email = document.querySelector('.email_input').value
+            password = document.querySelector('.password_input').value
+            console.log(email, password)
+            if (email == '' && password == '') {
+                document.querySelector('.enter').innerHTML = 'Enter Email and Password';
+                event.preventDefault();
+            }
+            else if (password == '') {
+                document.querySelector('.enter').innerHTML = 'Enter Password';
+                event.preventDefault();
+            }
+            else if (email == '') {
+                document.querySelector('.enter').innerHTML = 'Enter Email';
+                event.preventDefault();
+            }
+            sessionStorage.setItem(email, password);
+        })
+        document.querySelector('#show_password_btn').addEventListener('click', () => {
+            event.preventDefault();
+            password = document.querySelector('.password_input')
+            if (password.type == 'password') {
+                password.type = 'text'
+            }
+            else {
+                password.type = 'password'
+            }
+        })
+        document.querySelector('.btn').addEventListener('mouseover', () => {
+            document.getElementById('btn').style.backgroundColor = 'rgb(74, 74, 74)';
+            document.getElementById('btn').style.animation = 'anime 2s';
+        })
+        document.querySelector('.btn').addEventListener('mouseout', () => {
+            document.getElementById('btn').style.animation = 'anime2 2s';
+            document.getElementById('btn').style.backgroundColor = 'white';
+
+        });
+    </script>
+</body>
+
+</html>

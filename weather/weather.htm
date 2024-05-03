@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather By Sameer</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+        @keyframes box {
+            from {
+                box-shadow: 0px 0px 0px 0px;
+            }
+
+            to {
+                box-shadow: -2px 1px 20px 20px #877676;
+            }
+        }
+        @keyframes box2 {
+            from {
+                box-shadow: -2px 1px 20px 20px #877676;
+            }
+
+            to {
+                box-shadow: 0px 0px 0px 0px;
+            }
+        }
+        body{
+            background-image:url(bg2.jpg);
+            background-size: cover;
+        }
+        .main {
+            border: 2px solid black;
+            margin: 100px auto;
+            width: 310px;
+            border-radius: 20px;
+            background: linear-gradient(39deg, rgb(244 244 255), black);
+            text-align: center;
+        }
+
+        body {
+            font-family: 'Poppins';
+        }
+
+        .img {
+            margin-top: 24px;
+        }
+
+        .search {}
+
+        .search input {
+            border-radius: 20px;
+            border: none;
+            height: 20px;
+            margin-top: 12px;
+            width: 207px;
+            padding: 10px;
+        }
+
+        .find {
+            background: white;
+            margin-top: 12px;
+            border: 2px solid white;
+            margin-left: 16px;
+            margin-right: 12px;
+            height: 38px;
+            border-radius: 20px;
+        }
+
+        .temp {
+            color: white;
+        }
+
+        .city {
+            font-size: 28px;
+            margin-top: -20px;
+            color: white;
+        }
+
+        .weather {
+            font-size: 22px;
+            color: white;
+        }
+
+        .flex {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: space-around;
+        }
+
+        .humidity {
+            margin-top: 46px;
+        }
+
+        .humidity_text {
+            color: wheat;
+            font-size: 12px;
+        }
+
+        .humidity_percent {
+            color: white;
+            font-size: 18px;
+        }
+
+        .main:hover {
+            /* animation: name duration timing-function delay iteration-count direction fill-mode; */
+            animation: box 1s linear 0s forwards;
+        }
+
+        .main:not(:hover) {
+            animation: box2 1s linear 0s forwards;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <button class="find"><img src="search.png" width="20px" alt=""></button>
+        <span class="search"><input id="input" type="text" placeholder="City Name"></span>
+        <div class="flex">
+            <div class="img"><img id="img" src="clear.png" width="100px" alt="">
+                <div class="weather">---</div>
+            </div>
+            <div class="humidity"><img src="humidity.png" alt="">
+                <div class="humidity_text">Humidity</div>
+                <div class="humidity_percent">--%</div>
+            </div>
+        </div>
+        <div class="temp">
+            <h2 class="tem">---</h2>
+        </div>
+        <div class="city">---</div>
+    </div>
+    <script>
+        var api_url = "https://api.openweathermap.org/data/2.5/weather?q=Raipur&appid=865bdfd10f79d792ea8afb247d59ebd9"
+        async function check_weather() {
+            city = document.querySelector('#input').value
+            api_key = '865bdfd10f79d792ea8afb247d59ebd9'
+            api_url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api_key}`
+            const response = await fetch(api_url)
+            var data = await response.json()
+            document.querySelector('.city').innerHTML = data['name']
+            if ((data['cod'] == 400) || (data['cod'] == 404)) {
+                document.querySelector('.city').innerHTML = 'Error'
+                document.querySelector('.tem').innerHTML = 'Error'
+                document.querySelector('.humidity_percent').innerHTML = 'Error'
+                document.querySelector('.weather').innerHTML = 'Error'
+                return
+            }
+            tem = data.main.temp - 273.15
+            document.querySelector('.tem').innerHTML = `${Math.round(tem)}°C`
+            document.querySelector('.humidity_percent').innerHTML = `${data.main.humidity}%`
+            console.log(document.querySelector('#img').src)
+            if (data.weather[0].main == 'Clear') {
+                document.querySelector('#img').src = 'clear.png'
+                document.querySelector('.weather').innerHTML = 'Clear'
+
+            }
+            else if (data.weather[0].main == 'Clouds') {
+                document.querySelector('#img').src = 'clouds.png'
+                document.querySelector('.weather').innerHTML = 'Clouds'
+            }
+            else if (data.weather[0].main == 'Rain') {
+                document.querySelector('#img').src = 'rain.png'
+                document.querySelector('.weather').innerHTML = 'Rain'
+            }
+            else if ((data.weather[0].main == 'Drizzle') || (data.weather[0].main == 'Haze')) {
+                document.querySelector('#img').src = 'drizzle.png'
+                document.querySelector('.weather').innerHTML = 'Drizzle'
+            }
+            else if (data.weather[0].main == 'Mist') {
+                document.querySelector('#img').src = 'mist.png'
+                document.querySelector('.weather').innerHTML = 'Mist'
+            }
+            else if (data.weather[0].main == 'Snow') {
+                document.querySelector('#img').src = 'snow.png'
+                document.querySelector('.weather').innerHTML = 'Snow'
+            }
+        }
+        function val() {
+
+            check_weather()
+        }
+        document.querySelector('.find').addEventListener('click', val);
+        document.querySelector('.search').addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                val();
+            }
+        });
+    </script>
+</body>
+
+</html>
